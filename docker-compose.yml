@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: authdb_container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: adminuser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - authnet
+
+  # Optional: Add a backend service using PORT=18909
+  # backend:
+  #   build: .
+  #   ports:
+  #     - "18909:18909"
+  #   environment:
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_USER: adminuser
+  #     DB_PASSWORD: password
+  #     DB_NAME: authdb
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - authnet
+
+volumes:
+  pgdata:
+
+networks:
+  authnet:
