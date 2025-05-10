@@ -88,20 +88,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		"INSERT INTO otps (user_id, code, expires_at) VALUES ($1, $2, $3)",
 		user.ID, otp, expiresAt,
 	)
-	// if err != nil {
-	// 	//log.Error("Failed to store OTP for user: %s, error: %v", creds.Username, err) // Re-enabled logging for error
-	// 	http.Error(w, "Failed to generate OTP", http.StatusInternalServerError)
-	// 	return
-	// }
+	if err != nil {
+		//log.Error("Failed to store OTP for user: %s, error: %v", creds.Username, err) // Re-enabled logging for error
+		http.Error(w, "Failed to generate OTP", http.StatusInternalServerError)
+		return
+	}
 
 	// //log.Info("OTP generated and stored for user: %s", creds.Username)
 
-	// if err := utils.SendOTPEmail(user.Email, otp); err != nil {
-	// 	//log.Error("Failed to send OTP email to user: %s, error: %v", creds.Username, err)
-	// 	http.Error(w, "Failed to send OTP", http.StatusInternalServerError)
-	// 	fmt.Print(err)
-	// 	return
-	// }
+	if err := utils.SendOTPEmail(user.Email, otp); err != nil {
+		//log.Error("Failed to send OTP email to user: %s, error: %v", creds.Username, err)
+		http.Error(w, "Failed to send OTP", http.StatusInternalServerError)
+		fmt.Print(err)
+		return
+	}
 
 	// fmt.Printf("OTP sent to email for user: %s\n", creds.Username)
 
